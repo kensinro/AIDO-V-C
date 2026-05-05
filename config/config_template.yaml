@@ -1,0 +1,36 @@
+project_name: AIDO-VALIDATION-CORE
+random_seed: 42
+
+inputs:
+  expression_path: data/expression.csv
+  copy_number_path: data/copy_number.csv
+  clinical_path: data/clinical.csv
+  hallmark_gmt_path: data/h.all.v2023.2.Hs.symbols.gmt
+
+outputs:
+  base_dir: output
+
+clinical:
+  patient_id_col: patient_id
+  os_time_col: OS_time
+  os_event_col: OS_event
+  pfi_time_col: PFI_time
+  pfi_event_col: PFI_event
+
+preprocessing:
+  zscore_expression: true
+  zscore_copy_number: true
+  tcga_truncate_patient_id: true
+  keep_primary_tumor_only: true
+
+analysis:
+  endpoint: OS
+  split_method: median
+  quartile_labels: [Q1, Q2, Q3, Q4]
+  train_fraction: 0.7
+  top_m_hallmarks: 5
+  random_repeats: 500
+  alpha_ge: 1.0
+  beta_cn: 1.0
+  min_genes_per_set: 5
+  random_baseline_sample_size_mode: matched
